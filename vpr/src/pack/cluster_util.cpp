@@ -450,6 +450,7 @@ void print_le_count(int num_logic_le,
 void init_clb_atoms_lookup(vtr::vector<ClusterBlockId, std::unordered_set<AtomBlockId>>& atoms_lookup,
                            const AtomContext& atom_ctx,
                            const ClusteredNetlist& clb_nlist) {
+    atoms_lookup.clear();
     // Resize the atoms lookup to the number of clusters.
     atoms_lookup.resize(clb_nlist.blocks().size());
     for (AtomBlockId atom_blk_id : atom_ctx.nlist.blocks()) {
