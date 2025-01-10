@@ -18,8 +18,8 @@ MmapFile::MmapFile(const std::string& file)
         auto path = fs->getCurrentPath().evalNative(file);
 
         const auto& dir = fs->getRoot();
-        auto stat = dir.lstat(path);
         auto f = dir.openFile(path);
+        auto stat = f->stat();
         size_ = stat.size;
         data_ = f->mmap(0, stat.size);
     } catch (kj::Exception& e) {
