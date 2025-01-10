@@ -605,7 +605,7 @@ float ExtendedMapLookahead::get_expected_cost(
 }
 
 void ExtendedMapLookahead::read(const std::string& file) {
-#ifndef VTR_ENABLE_CAPNPROTO
+#ifdef VTR_ENABLE_CAPNPROTO
     cost_map_.read(file);
 
     this->src_opin_delays = util::compute_router_src_opin_lookahead(is_flat_);
@@ -618,7 +618,7 @@ void ExtendedMapLookahead::read(const std::string& file) {
 }
 
 void ExtendedMapLookahead::write(const std::string& file) const {
-#ifndef VTR_ENABLE_CAPNPROTO
+#ifdef VTR_ENABLE_CAPNPROTO
     cost_map_.write(file);
 #else  // VTR_ENABLE_CAPNPROTO
     (void)file;
