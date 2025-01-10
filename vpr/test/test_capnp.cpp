@@ -11,6 +11,10 @@ static constexpr const char kRrGraphFile[] = "test_capnp.rr_graph.bin";
 static constexpr const char kPlaceDelayFile[] = "test_capnp.place_delay.bin";
 static constexpr const char kLookaheadFile[] = "test_capnp.lookahead.bin";
 
+static constexpr const char kRrGraphLink[] = "test_capnp.rr_graph.link.bin";
+static constexpr const char kPlaceDelayLink[] = "test_capnp.place_delay.link.bin";
+static constexpr const char kLookaheadLink[] = "test_capnp.lookahead.link.bin";
+
 TEST_CASE("read_rr_graph", "[vpr]") {
     {
         t_vpr_setup vpr_setup = t_vpr_setup();
@@ -30,6 +34,24 @@ TEST_CASE("read_rr_graph", "[vpr]") {
         vpr_free_all(arch, vpr_setup);
     }
 
+    {
+        t_vpr_setup vpr_setup = t_vpr_setup();
+        t_arch arch = t_arch();
+        t_options options = t_options();
+        const char* argv[] = {
+            "test_vpr",
+            kArchFile,
+            "wire.eblif",
+            "--route_chan_width",
+            "100",
+            "--read_rr_graph",
+            kRrGraphFile};
+        vpr_init(sizeof(argv) / sizeof(argv[0]), argv,
+                 &options, &vpr_setup, &arch);
+        REQUIRE(vpr_flow(vpr_setup, arch));
+        vpr_free_all(arch, vpr_setup);
+    }
+
     t_vpr_setup vpr_setup = t_vpr_setup();
     t_arch arch = t_arch();
     t_options options = t_options();
@@ -40,7 +62,7 @@ TEST_CASE("read_rr_graph", "[vpr]") {
         "--route_chan_width",
         "100",
         "--read_rr_graph",
-        kRrGraphFile};
+        kRrGraphLink};
     vpr_init(sizeof(argv) / sizeof(argv[0]), argv,
              &options, &vpr_setup, &arch);
     REQUIRE(vpr_flow(vpr_setup, arch));
@@ -66,6 +88,24 @@ TEST_CASE("read_placement_delay_lookup", "[vpr]") {
         vpr_free_all(arch, vpr_setup);
     }
 
+    {
+        t_vpr_setup vpr_setup = t_vpr_setup();
+        t_arch arch = t_arch();
+        t_options options = t_options();
+        const char* argv[] = {
+            "test_vpr",
+            kArchFile,
+            "wire.eblif",
+            "--route_chan_width",
+            "100",
+            "--read_placement_delay_lookup",
+            kPlaceDelayFile};
+        vpr_init(sizeof(argv) / sizeof(argv[0]), argv,
+                 &options, &vpr_setup, &arch);
+        REQUIRE(vpr_flow(vpr_setup, arch));
+        vpr_free_all(arch, vpr_setup);
+    }
+
     t_vpr_setup vpr_setup = t_vpr_setup();
     t_arch arch = t_arch();
     t_options options = t_options();
@@ -76,7 +116,7 @@ TEST_CASE("read_placement_delay_lookup", "[vpr]") {
         "--route_chan_width",
         "100",
         "--read_placement_delay_lookup",
-        kPlaceDelayFile};
+        kPlaceDelayLink};
     vpr_init(sizeof(argv) / sizeof(argv[0]), argv,
              &options, &vpr_setup, &arch);
     REQUIRE(vpr_flow(vpr_setup, arch));
@@ -107,6 +147,26 @@ TEST_CASE("read_router_lookahead", "[vpr]") {
         vpr_free_all(arch, vpr_setup);
     }
 
+    {
+        t_vpr_setup vpr_setup = t_vpr_setup();
+        t_arch arch = t_arch();
+        t_options options = t_options();
+        const char* argv[] = {
+            "test_vpr",
+            kArchFile,
+            "wire.eblif",
+            "--route_chan_width",
+            "100",
+            "--router_lookahead",
+            lookahead_type,
+            "--read_router_lookahead",
+            kLookaheadFile};
+        vpr_init(sizeof(argv) / sizeof(argv[0]), argv,
+                 &options, &vpr_setup, &arch);
+        REQUIRE(vpr_flow(vpr_setup, arch));
+        vpr_free_all(arch, vpr_setup);
+    }
+
     t_vpr_setup vpr_setup = t_vpr_setup();
     t_arch arch = t_arch();
     t_options options = t_options();
@@ -119,7 +179,7 @@ TEST_CASE("read_router_lookahead", "[vpr]") {
         "--router_lookahead",
         lookahead_type,
         "--read_router_lookahead",
-        kLookaheadFile};
+        kLookaheadLink};
     vpr_init(sizeof(argv) / sizeof(argv[0]), argv,
              &options, &vpr_setup, &arch);
     REQUIRE(vpr_flow(vpr_setup, arch));
